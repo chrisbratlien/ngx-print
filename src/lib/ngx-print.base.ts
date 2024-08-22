@@ -220,6 +220,8 @@ export class PrintBase {
             return;
         }
 
+        const maybeScriptNonce = this.nonce?.length ? `nonce="${this.nonce}"` : ''; 
+
         popupWin.document.open();
         popupWin.document.write(`
           <html>
@@ -233,7 +235,7 @@ export class PrintBase {
             </head>
             <body ${printOptions.bodyClass ? `class="${printOptions.bodyClass}"` : ''}>
               ${printContents}
-              <script defer>
+              <script ${maybeScriptNonce} defer>
                 function triggerPrint(event) {
                   window.removeEventListener('load', triggerPrint, false);
                   ${printOptions.previewOnly ? '' : `setTimeout(function() {
